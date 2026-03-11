@@ -9,9 +9,7 @@
 body{
     margin:0;
     height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    width:100vw;
     font-family:Arial, sans-serif;
     overflow:hidden;
     background: linear-gradient(270deg, #000000, #434343);
@@ -104,6 +102,10 @@ body{
 
 /* --- Countdown Container --- */
 .container{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
     text-align:center;
     z-index:1;
 }
