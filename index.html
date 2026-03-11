@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Event Countdown</title>
+
+<style>
+
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial;
+    background:linear-gradient(270deg,#0f2027,#203a43,#2c5364);
+    background-size:400% 400%;
+    animation:bg 10s infinite alternate;
+    color:white;
+}
+
+@keyframes bg{
+    0%{background-position:left;}
+    100%{background-position:right;}
+}
+
+.container{
+    text-align:center;
+}
+
+h1{
+    font-size:40px;
+    margin-bottom:40px;
+}
+
+.timer{
+    display:flex;
+    gap:30px;
+}
+
+.card{
+    background:rgba(255,255,255,0.1);
+    padding:30px;
+    width:120px;
+    border-radius:15px;
+    backdrop-filter:blur(10px);
+    transition:transform 0.3s;
+}
+
+.card:hover{
+    transform:scale(1.08);
+}
+
+.number{
+    font-size:45px;
+    font-weight:bold;
+}
+
+.label{
+    margin-top:10px;
+    font-size:14px;
+    letter-spacing:2px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Countdown to March 20 • 7 PM</h1>
+
+<div class="timer">
+
+<div class="card">
+<div class="number" id="days">0</div>
+<div class="label">DAYS</div>
+</div>
+
+<div class="card">
+<div class="number" id="hours">0</div>
+<div class="label">HOURS</div>
+</div>
+
+<div class="card">
+<div class="number" id="minutes">0</div>
+<div class="label">MINUTES</div>
+</div>
+
+<div class="card">
+<div class="number" id="seconds">0</div>
+<div class="label">SECONDS</div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let targetDate = new Date("March 20, 2026 19:00:00").getTime();
+
+let timer = setInterval(function(){
+
+let now = new Date().getTime();
+let distance = targetDate - now;
+
+let days = Math.floor(distance/(1000*60*60*24));
+let hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+let minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+let seconds = Math.floor((distance%(1000*60))/1000);
+
+document.getElementById("days").innerHTML = days;
+document.getElementById("hours").innerHTML = hours;
+document.getElementById("minutes").innerHTML = minutes;
+document.getElementById("seconds").innerHTML = seconds;
+
+if(distance<0){
+clearInterval(timer);
+document.body.innerHTML="<h1 style='color:white;text-align:center'>🎉 Event Started 🎉</h1>";
+}
+
+},1000);
+
+</script>
+
+</body>
+</html>
