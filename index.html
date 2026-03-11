@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Event Countdown</title>
+<title>Countdown For My Baby 🥺❤️</title>
 
 <style>
-
+/* --- Body & Background --- */
 body{
     margin:0;
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family:Arial;
-    background:linear-gradient(270deg,#0f2027,#203a43,#2c5364);
-    background-size:400% 400%;
-    animation:bg 10s infinite alternate;
+    font-family:Arial, sans-serif;
+    overflow:hidden;
+    background: linear-gradient(270deg, #000000, #434343);
+    background-size: 400% 400%;
+    animation:bg 15s infinite alternate;
     color:white;
 }
 
@@ -25,24 +25,110 @@ body{
     100%{background-position:right;}
 }
 
+/* --- Stars --- */
+.stars{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-2;
+    overflow:hidden;
+}
+
+.star{
+    position:absolute;
+    background:white;
+    border-radius:50%;
+    opacity:0.8;
+    animation:twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle{
+    0%{opacity:0.2; transform:scale(0.5);}
+    50%{opacity:1; transform:scale(1);}
+    100%{opacity:0.2; transform:scale(0.5);}
+}
+
+/* --- Hearts, Petals, Particles --- */
+.hearts, .petals, .particles{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:-1;
+}
+
+.heart, .petal, .particle{
+    position:absolute;
+    animation-timing-function: linear;
+    opacity:0.9;
+}
+
+.heart{
+    font-size:20px;
+    animation-name:floatUp;
+}
+
+.petal{
+    font-size:25px;
+    animation-name:fallPetal;
+}
+
+.particle{
+    width:4px;
+    height:4px;
+    background:white;
+    border-radius:50%;
+    animation-name:riseParticle;
+}
+
+/* --- Animations --- */
+@keyframes floatUp{
+    0%{transform:translateY(100vh) scale(0.8); opacity:0.7;}
+    20%{opacity:1;}
+    100%{transform:translateY(-10vh) scale(1.2); opacity:0;}
+}
+
+@keyframes fallPetal{
+    0%{transform:translateY(-10vh) rotate(0);}
+    100%{transform:translateY(110vh) rotate(360deg);}
+}
+
+@keyframes riseParticle{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(-120vh);}
+}
+
+/* --- Countdown Container --- */
 .container{
     text-align:center;
+    z-index:1;
 }
 
 h1{
     font-size:40px;
+    margin-bottom:10px;
+}
+
+h2{
+    font-size:20px;
     margin-bottom:40px;
 }
 
+/* --- Countdown Timer Cards --- */
 .timer{
     display:flex;
-    gap:30px;
+    gap:25px;
+    justify-content:center;
 }
 
 .card{
     background:rgba(255,255,255,0.1);
-    padding:30px;
-    width:120px;
+    padding:25px;
+    width:110px;
     border-radius:15px;
     backdrop-filter:blur(10px);
     transition:transform 0.3s;
@@ -62,70 +148,119 @@ h1{
     font-size:14px;
     letter-spacing:2px;
 }
-
 </style>
-
 </head>
 
 <body>
 
-<div class="container">
+<!-- Background Elements -->
+<div class="stars"></div>
+<div class="hearts"></div>
+<div class="petals"></div>
+<div class="particles"></div>
 
-<h1>Countdown to March 20 • 7 PM</h1>
+<!-- Countdown Container -->
+<div class="container">
+<h1>Countdown For My Baby 🥺❤️</h1>
+<h2>20 March, 2026 | 07:00 PM</h2>
 
 <div class="timer">
-
-<div class="card">
-<div class="number" id="days">0</div>
-<div class="label">DAYS</div>
+    <div class="card">
+        <div class="number" id="days">0</div>
+        <div class="label">DAYS</div>
+    </div>
+    <div class="card">
+        <div class="number" id="hours">0</div>
+        <div class="label">HOURS</div>
+    </div>
+    <div class="card">
+        <div class="number" id="minutes">0</div>
+        <div class="label">MINUTES</div>
+    </div>
+    <div class="card">
+        <div class="number" id="seconds">0</div>
+        <div class="label">SECONDS</div>
+    </div>
 </div>
-
-<div class="card">
-<div class="number" id="hours">0</div>
-<div class="label">HOURS</div>
-</div>
-
-<div class="card">
-<div class="number" id="minutes">0</div>
-<div class="label">MINUTES</div>
-</div>
-
-<div class="card">
-<div class="number" id="seconds">0</div>
-<div class="label">SECONDS</div>
-</div>
-
-</div>
-
 </div>
 
 <script>
-
+// ---------- Countdown Logic ----------
 let targetDate = new Date("March 20, 2026 19:00:00").getTime();
 
 let timer = setInterval(function(){
+    let now = new Date().getTime();
+    let distance = targetDate - now;
 
-let now = new Date().getTime();
-let distance = targetDate - now;
+    let days = Math.floor(distance/(1000*60*60*24));
+    let hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+    let minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+    let seconds = Math.floor((distance%(1000*60))/1000);
 
-let days = Math.floor(distance/(1000*60*60*24));
-let hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-let minutes = Math.floor((distance%(1000*60*60))/(1000*60));
-let seconds = Math.floor((distance%(1000*60))/1000);
+    document.getElementById("days").innerHTML = days;
+    document.getElementById("hours").innerHTML = hours;
+    document.getElementById("minutes").innerHTML = minutes;
+    document.getElementById("seconds").innerHTML = seconds;
 
-document.getElementById("days").innerHTML = days;
-document.getElementById("hours").innerHTML = hours;
-document.getElementById("minutes").innerHTML = minutes;
-document.getElementById("seconds").innerHTML = seconds;
-
-if(distance<0){
-clearInterval(timer);
-document.body.innerHTML="<h1 style='color:white;text-align:center'>🎉 Event Started 🎉</h1>";
-}
-
+    if(distance<0){
+        clearInterval(timer);
+        document.body.innerHTML="<h1 style='color:white;text-align:center'>🎉 Event Started 🎉</h1>";
+    }
 },1000);
 
-</script>
+// ---------- Stars ----------
+const starsContainer = document.querySelector(".stars");
+for(let i=0;i<100;i++){
+    let star = document.createElement("div");
+    star.classList.add("star");
+    star.style.width = star.style.height = Math.random()*3 + "px";
+    star.style.top = Math.random()*100 + "vh";
+    star.style.left = Math.random()*100 + "vw";
+    star.style.animationDuration = (2 + Math.random()*3) + "s";
+    starsContainer.appendChild(star);
+}
 
+// ---------- Hearts (bottom to top) ----------
+const heartsContainer = document.querySelector(".hearts");
+function createHeart(){
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.fontSize = (15 + Math.random()*20) + "px";
+    heart.style.animationDuration = (6 + Math.random()*4) + "s";
+    heartsContainer.appendChild(heart);
+    setTimeout(()=>heart.remove(),9000);
+}
+setInterval(createHeart,500);
+
+// ---------- Petals (top to bottom) ----------
+const petalsContainer = document.querySelector(".petals");
+function createPetal(){
+    const petal = document.createElement("div");
+    petal.classList.add("petal");
+    petal.innerHTML = "🌸";
+    petal.style.left = Math.random()*100 + "vw";
+    petal.style.fontSize = (20 + Math.random()*15) + "px";
+    petal.style.animationDuration = (7 + Math.random()*5) + "s";
+    petalsContainer.appendChild(petal);
+    setTimeout(()=>petal.remove(),12000);
+}
+setInterval(createPetal,500);
+
+// ---------- Particles ----------
+const particlesContainer = document.querySelector(".particles");
+function createParticle(){
+    const p = document.createElement("div");
+    p.classList.add("particle");
+    p.style.left = Math.random()*100 + "vw";
+    p.style.width = p.style.height = (2 + Math.random()*3) + "px";
+    p.style.animationDuration = (5 + Math.random()*3) + "s";
+    particlesContainer.appendChild(p);
+    setTimeout(()=>p.remove(),9000);
+}
+setInterval(createParticle,100);
+
+</script>
 </body>
 </html>
